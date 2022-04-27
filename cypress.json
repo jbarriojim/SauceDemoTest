@@ -1,0 +1,12 @@
+{
+  "baseUrl": "http://www.saucedemo.com",
+  "integrationFolder": "cypress/features",
+  "testFiles": "**/*.feature",
+  "video": false,
+  "supportFile": "cypress/support/index.js",
+  "retries": {
+    "runMode": 2,
+    "openMode": 2
+  },
+  "chromeWebSecurity": false
+}
