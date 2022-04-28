@@ -17,12 +17,14 @@ const taxes = 0.08;
  * @param productName: The visual name of the product
  */
 Then("the {string} product added should be shown", (productName) => {
-  cy.get(cartWorkflowSelectors.itemName)
-    .contains(productName)
-    .parents(cartWorkflowSelectors.itemSquare)
-    .as("itemCart")
-    .find(cartWorkflowSelectors.quantity)
-    .contains(1);
+  for (var theProduct of productName.split("#")) {
+    cy.get(cartWorkflowSelectors.itemName)
+      .contains(theProduct)
+      .parents(cartWorkflowSelectors.itemSquare)
+      .as("itemCart")
+      .find(cartWorkflowSelectors.quantity)
+      .contains(1);
+  }
 });
 
 /**
@@ -55,7 +57,9 @@ When("the user fills out the form and submit it", () => {
  * @param productName: The visual name of the product
  */
 Then("the summary should shown the {string} product", (productName) => {
-  cy.get(cartWorkflowSelectors.itemName).contains(productName);
+  for (var theProduct of productName.split("#")) {
+    cy.get(cartWorkflowSelectors.itemName).contains(theProduct);
+  }
   cy.get(cartWorkflowSelectors.summaryInfo).first().contains(paymentLabel);
   cy.get(cartWorkflowSelectors.summaryInfo).eq(1).contains(shippingLabel);
 });
@@ -81,10 +85,12 @@ Then("the thank you message should appear", () => {
  */
 And("the taxes are properly calculated", () => {
   var elementCost = 0;
-  cy.get("@itemCart")
-    .find(cartWorkflowSelectors.itemPrice)
-    .then(($elem) => {
-      elementCost = parseFloat($elem.text().split("$")[1]).toFixed(2);
+  cy.get(cartWorkflowSelectors.itemPrice)
+    .each(($elem) => {
+      elementCost =
+        elementCost - -parseFloat($elem.text().split("$")[1]).toFixed(2);
+    })
+    .then(() => {
       var taxValue = parseFloat(elementCost * taxes).toFixed(2);
       const total = (elementCost - -taxValue).toFixed(2);
       cy.get(cartWorkflowSelectors.summaryTaxLabel).contains(taxValue);

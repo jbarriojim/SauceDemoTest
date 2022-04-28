@@ -6,6 +6,17 @@ import { Given, Then, When } from "cypress-cucumber-preprocessor/steps";
 const username = "standard_user";
 const password = "secret_sauce";
 
+
+beforeEach(() => {
+  cy.viewport(1920, 1080);
+  cy.clearLocalStorage();
+  cy.clearCookies();
+  cy.visit("www.saucedemo.com");
+  cy.get(loginSelectors.userName).type(username);
+  cy.get(loginSelectors.password).type(password);
+  cy.get(loginSelectors.submitButton).click();
+});
+
 /**
  * Navigates to main page
  * - Using a viewport of 1920x1080

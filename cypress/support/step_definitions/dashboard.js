@@ -21,13 +21,15 @@ Then("the user sees all the products", () => {
  * @param productName: The visual name of the product
  */
 When("the user adds the {string} product", (productName) => {
-  cy.get(dashboardSelectors.itemName)
-    .contains(productName)
-    .parentsUntil(dashboardSelectors.itemSquare)
-    .find(dashboardSelectors.priceButton)
-    .contains(addToCart)
-    .click();
-  cartNumber += 1;
+  for (var theProduct of productName.split("#")) {
+    cy.get(dashboardSelectors.itemName)
+      .contains(theProduct)
+      .parentsUntil(dashboardSelectors.itemSquare)
+      .find(dashboardSelectors.priceButton)
+      .contains(addToCart)
+      .click();
+    cartNumber += 1;
+  }
 });
 
 /**
@@ -38,7 +40,7 @@ Then("the cart has one more article", () => {
 });
 
 /**
- * Clicks on the cart to continue the buying process and the 
+ * Clicks on the cart to continue the buying process and the
  * cartNumber variable is reset
  */
 When("the user clicks on the cart", () => {
@@ -53,4 +55,10 @@ When("the user clicks on the cart", () => {
 When("logout", () => {
   cy.get(dashboardSelectors.userMenu).click();
   cy.get(dashboardSelectors.logoutOption).click();
+});
+
+afterEach(() => {
+  cy.get(dashboardSelectors.userMenu).click();
+  cy.get(dashboardSelectors.logoutOption).click();
+  cy.get(dashboardSelectors.userMenu).should("not.exist");
 });
