@@ -1,0 +1,42 @@
+# Maven
+*target*
+log/
+
+# JS dependencies
+*node_modules*
+# Report
+*cucumber-json*
+
+# Package Files 
+*.jar
+*.war
+*.ear
+*.class
+
+# eclipse specific git ignore
+.project
+.metadata
+bin/**
+tmp/**
+tmp/**/*
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.classpath
+.settings/
+
+# Locally stored "Eclipse launch configurations"
+*.launch
+
+# IntelliJ
+.idea
+*.iml
+
+# Mac
+.DS_Store
+
+.yo-rc.json
+
+
